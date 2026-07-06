@@ -20,7 +20,7 @@
         <button class="btn-book" onclick="openBooking()">Онлайн-Запись</button>
     </header>
 
-    <!-- Главный экран с фоновым слайдером из 3 фото -->
+    <!-- Главный экран со слайдером -->
     <section class="hero">
         <div class="hero-slider">
             <div class="slide active" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)), url('img/hero-1.jpg');"></div>
@@ -29,32 +29,28 @@
         </div>
         <div class="hero-content">
             <h1 class="hero-title">Искусство вашей <span class="italic-title">совершенности</span></h1>
-            <p class="hero-subtitle">Премиальный сервис, топ-мастера и новые тренды бьюти-индустрии в самом центре столицы.</p>
+            <p class="hero-subtitle">Премиальный бьюти-сервис в центре столицы. Создаем роскошные образы и заботимся о вашей уникальности уже более 3 лет.</p>
             <button class="btn-book btn-hero" onclick="openBooking()">Записаться к мастеру</button>
         </div>
     </section>
 
-    <!-- Секция портфолио (Сетка на 12 фото управляется через JS для защиты от обрезания кода) -->
+    <!-- Структурированное портфолио по отделам -->
     <section id="portfolio" class="section">
-        <h2 class="section-title">Портфолио мастеров</h2>
+        <h2 class="section-title">Наше Портфолио</h2>
+        <!-- Кнопки фильтрации по позициям -->
+        <div class="filter-buttons">
+            <button class="btn-filter active" onclick="filterGallery('all')">Все работы</button>
+            <button class="btn-filter" onclick="filterGallery('hair')">Стилисты</button>
+            <button class="btn-filter" onclick="filterGallery('nails')">Ногтевой сервис</button>
+            <button class="btn-filter" onclick="filterGallery('makeup')">Визаж и брови</button>
+        </div>
         <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
-    <!-- Отзывы гостей -->
+    <!-- Живые отзывы гостей (10 штук рендерятся через JS) -->
     <section id="reviews" class="section section-alt">
-        <h2 class="section-title">Отзывы гостей</h2>
-        <div class="reviews-container">
-            <div class="review-card">
-                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p class="review-text">«Самый лучший премиальный уход в городе. Атмосфера невероятная, сервис на высоте, а чашечка эспрессо во время процедуры — отдельное удовольствие.»</p>
-                <div class="review-author">Екатерина К.</div>
-            </div>
-            <div class="review-card">
-                <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                <p class="review-text">«Хожу к топ-стилисту Елене уже год. Мои волосы никогда не выглядели так роскошно и ухоженно. Рекомендую всем подругам!»</p>
-                <div class="review-author">Мария П.</div>
-            </div>
-        </div>
+        <h2 class="section-title">Отзывы наших гостей</h2>
+        <div class="reviews-container" id="reviewsContainer"></div>
     </section>
 
     <!-- Контакты и Яндекс Карты -->
@@ -77,11 +73,11 @@
     <div class="ai-assistant-widget">
         <div class="ai-chat-window" id="aiChatWindow">
             <div class="ai-chat-header">
-                <h4 class="ai-chat-title">ИИ Ассистент Prestige</h4>
+                <h4 class="ai-chat-title">ИИ Консьерж Prestige</h4>
                 <button class="btn-close-chat" onclick="toggleAiChat()"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <div class="ai-chat-body">
-                <div class="ai-msg bot">Приветствую! Я виртуальный консьерж Le Prestige. Помочь вам выбрать мастера или подобрать процедуру?</div>
+                <div class="ai-msg bot">Здравствуйте! Рада видеть вас. Я виртуальный консьерж Le Prestige. Работаю здесь уже 3 года и знаю всё о наших мастерах, прайсе и свободных окошках. Какой отдел вас интересует?</div>
             </div>
             <div class="ai-chat-input-area">
                 <input type="text" class="ai-input" placeholder="Задать вопрос ассистенту...">
@@ -91,42 +87,14 @@
         <button class="ai-button" onclick="toggleAiChat()"><i class="fa-solid fa-comment-dots"></i></button>
     </div>
 
-    <!-- Подвал сайта -->
     <footer class="site-footer">
-        <p class="footer-copy">&copy; 2026 LE PRESTIGE. Все права защищены. Разработано для индустрии красоты.</p>
+        <p class="footer-copy">&copy; 2026 LE PRESTIGE. Премиальный сервис с 2023 года. Все права защищены.</p>
     </footer>
 
-    <!-- Скрипты генерации фото и логики ИИ -->
+    <!-- Логика ИИ-чата -->
     <script>
-        function openBooking(){alert('Открытие формы онлайн-записи...');}
+        function openBooking(){alert('Открытие премиум-формы онлайн-записи...');}
         function toggleAiChat(){document.getElementById('aiChatWindow').classList.toggle('active');}
-        
-        // Массив данных для 12 локальных изображений в папке img/
-        const photos = [
-            {img:'hair-1.jpg', t:'Airtouch окрашивание', m:'Елена Вернер'},
-            {img:'hair-2.jpg', t:'Кератиновое восстановление', m:'Елена Вернер'},
-            {img:'hair-3.jpg', t:'Голливудская волна', m:'Елена Вернер'},
-            {img:'hair-4.jpg', t:'Трендовое каре', m:'Денис Кинг'},
-            {img:'nails-1.jpg', t:'Японский эко-маникюр', m:'Кристина Ли'},
-            {img:'nails-2.jpg', t:'Премиальный френч', m:'Кристина Ли'},
-            {img:'nails-3.jpg', t:'Smart-педикюр', m:'Ольга Власова'},
-            {img:'nails-4.jpg', t:'Авторский нейл-арт', m:'Кристина Ли'},
-            {img:'makeup-1.jpg', t:'Вечерний образ', m:'Анна Дюпон'},
-            {img:'makeup-2.jpg', t:'Свадебный образ Nude', m:'Анна Дюпон'},
-            {img:'makeup-3.jpg', t:'Архитектура бровей', m:'Лилия Маер'},
-            {img:'makeup-4.jpg', t:'Пудровое напыление', m:'Лилия Маер'}
-        ];
-
-        // Умная генерация карточек
-        const grid = document.getElementById('galleryGrid');
-        photos.forEach(p => {
-            const item = document.createElement('div');
-            item.className = 'gallery-item';
-            item.innerHTML = `<img src="img/${p.img}" alt="${p.t}"><div class="gallery-overlay"><h3>${p.t}</h3><p>Мастер: ${p.m}</p></div>`;
-            grid.appendChild(item);
-        });
-
-        // Логика ИИ-чата
         document.querySelector('.ai-input').addEventListener('keypress',e=>{if(e.key==='Enter')sendAiMsg();});
         function sendAiMsg(){
             const inp=document.querySelector('.ai-input');const text=inp.value.trim();if(!text)return;
@@ -136,12 +104,13 @@
             setTimeout(()=>{
                 const bM=document.createElement('div');bM.className='ai-msg bot';
                 const s=text.toLowerCase();
-                let ans='Спасибо за вопрос! Наш менеджер свяжется с вами в течение пары минут.';
-                if(s.includes('привет')||s.includes('здрав'))ans='Здравствуйте! Чем могу помочь?';
-                if(s.includes('запис')||s.includes('брон'))ans='Для записи нажмите золотую кнопку «Онлайн-Запись» вверху.';
-                if(s.includes('цен')||s.includes('прайс'))ans='Окрашивание от 8000₽, маникюр от 3000₽, макияж от 5000₽.';
+                let ans='Спасибо за обращение! Наш администратор свяжется с вами для подтверждения деталей.';
+                if(s.includes('привет')||s.includes('здрав'))ans='Приветствуем вас в Le Prestige! Чем могу помочь сегодня?';
+                if(s.includes('запис')||s.includes('окошк')||s.includes('свобод'))ans='Вы можете выбрать удобное время и топ-мастера самостоятельно, нажав кнопку «Онлайн-Запись» вверху страницы.';
+                if(s.includes('цен')||s.includes('прайс')||s.includes('скольк'))ans='Наш прайс: Сложное окрашивание от 8.500₽, Стрижки от 3.500₽, Японский маникюр от 3.000₽, Свадебный визаж от 6.000₽.';
+                if(s.includes('отзыв'))ans='За 3 года работы мы получили сотни теплых слов! Вы можете прочитать их чуть ниже в блоке отзывов.';
                 bM.textContent=ans;bdy.appendChild(bM);bdy.scrollTop=bdy.scrollHeight;
-            },800);
+            },700);
         }
     </script>
     <script src="script.js"></script>
