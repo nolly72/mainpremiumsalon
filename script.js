@@ -1,5 +1,47 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. БАЗА ДАННЫХ САЛОНА (12 РАБОТ И 10 ЖИВЫХ ОТЗЫВОВ ЗА 3 ГОДА РАБОТЫ)
+    // 1. ДАННЫЕ ОДТЕЛОВ (ДЛЯ ОТДЕЛЬНЫХ СТРАНИЦ)
+    const categoriesData = {
+        hair: {
+            title: "Отдел Стилистов (Волосы)",
+            desc: "Наши мастера международного уровня создают шедевры колористики и стрижек, используя люксовые бренды ухода.",
+            prices: [
+                {name: "Airtouch / Сложное окрашивание", val: "от 8 500 ₽"},
+                {name: "Кератиновое восстановление волос", val: "от 6 000 ₽"},
+                {name: "Авторская женская стрижка", val: "от 3 500 ₽"},
+                {name: "Укладка «Голливудская волна»", val: "от 4 000 ₽"}
+            ]
+        },
+        nails: {
+            title: "Ногтевой Сервис",
+            desc: "Безупречная стерилизация инструментов, огромная палитра премиальных покрытий и медицинский подход к педикюру.",
+            prices: [
+                {name: "Японский эко-маникюр", val: "от 3 000 ₽"},
+                {name: "Премиальный френч", val: "от 3 500 ₽"},
+                {name: "Аппаратный Smart-педикюр", val: "от 4 500 ₽"},
+                {name: "Авторский нейл-арт (1 ногть)", val: "от 300 ₽"}
+            ]
+        },
+        makeup: {
+            title: "Визаж и Брови",
+            desc: "Подчеркнем вашу естественную красоту для любого важного события или создадим идеальную архитектуру взгляда.",
+            prices: [
+                {name: "Вечерний макияж (Smoky / Лифтинг)", val: "от 5 000 ₽"},
+                {name: "Свадебный образ (Nude макияж)", val: "от 6 000 ₽"},
+                {name: "Ламинирование и архитектура бровей", val: "от 2 500 ₽"},
+                {name: "Пудровое напыление (Перманент)", val: "от 9 000 ₽"}
+            ]
+        }
+    };
+
+    // 2. ДАННЫЕ МАСТЕРОВ (МЕСТО ДЛЯ ФОТО И ОПИСАНИЯ)
+    const team = [
+        {name: "Елена Вернер", role: "Топ-Колорист", desc: "Опыт 8 лет. Проходила стажировку в Париже. Эксперт в техниках Airtouch и Шатуш.", img: "hair-1.jpg"},
+        {name: "Кристина Ли", role: "Нейл-Арбитр", desc: "Опыт 5 лет. Скорость работы до 1 часа без потери качества. Создает сложную графику на ногтях.", img: "nails-1.jpg"},
+        {name: "Анна Дюпон", role: "Топ-Визажист", desc: "Опыт 6 лет. Работает на модных показах. Специализируется на стойких свадебных образах.", img: "makeup-1.jpg"},
+        {name: "Лилия Маер", role: "Бровист-Лешмейкер", desc: "Опыт 4 года. Находит идеальную форму бровей под любую геометрию лица. Гуру ламинирования.", img: "makeup-3.jpg"}
+    ];
+
+    // 12 ФОТО ДЛЯ ГЛАВНОЙ ГАЛЕРЕИ
     const photos = [
         {img:'hair-1.jpg', t:'Airtouch окрашивание', m:'Елена Вернер', cat:'hair'},
         {img:'hair-2.jpg', t:'Кератиновое восстановление', m:'Елена Вернер', cat:'hair'},
@@ -15,77 +57,61 @@ document.addEventListener("DOMContentLoaded", () => {
         {img:'makeup-4.jpg', t:'Пудровое напыление', m:'Лилия Маер', cat:'makeup'}
     ];
 
+    // 10 ЖИВЫХ ОТЗЫВОВ
     const reviews = [
-        {name:'Александра М.', stars:5, text:'Любимый салон бьюти-индустрии! Хожу сюда со дня открытия в 2023 году. Сервис всегда на высочайшем уровне, а кофе с сиропом — отдельный вид удовольствия.'},
-        {name:'Ирина Колесникова', stars:5, text:'Делала сложное окрашивание у Елены Вернер. Это просто магия! Волосы сияют, цвет получился дорогой и глубокий. Стоит каждого рубля.'},
-        {name:'Ксения Т.', stars:4, text:'Отличный ногтевой сервис, очень чистая студия. Записываться нужно сильно заранее, так как у Кристины всегда плотная запись на недели вперед.'},
-        {name:'Виктория Б.', stars:5, text:'Le Prestige — это любовь с первой процедуры. Девочки на ресепшн невероятно милые, атмосфера полного люкса и расслабления.'},
-        {name:'Мария Павлова', stars:5, text:'Анна Дюпон создала для меня идеальный свадебный образ. Макияж продержался весь день и собрал сотни комплиментов. Спасибо!'},
-        {name:'Елена Ж.', stars:5, text:'Уже 3 года доверяю свои брови только Лилии Маер. Ламинирование держится идеально, форма всегда симметричная и естественная.'},
-        {name:'Ольга Степанова', stars:4, text:'Прекрасный салон на Арбате. Маникюр сделали быстро и качественно. Снижаю оценку на один балл только из-за того, что тяжело найти парковку рядом.'},
-        {name:'Наталья В.', stars:5, text:'Smart-педикюр у Ольги — это спасение для моих ног. Очень профессиональный медицинский подход к эстетике. Рекомендую!'},
-        {name:'Татьяна К.', stars:5, text:'Трендовое каре от Дениса Кинга изменило мою жизнь! Потрясающий мастер с уникальным видением формы и стиля.'},
-        {name:'Диана Д.', stars:5, text:'Прихожу сюда как в тихую гавань. Всегда премиальные материалы, безупречная стерилизация инструментов и очень вежливый персонал.'}
+        {name:'Александра М.', stars:5, text:'Любимый салон! Хожу сюда со дня открытия в 2023 году. Сервис всегда на высоте.'},
+        {name:'Ирина К.', stars:5, text:'Делала сложное окрашивание у Елены. Это магия! Волосы сияют, цвет дорогой.'},
+        {name:'Ксения Т.', stars:4, text:'Отличный ногтевой сервис. Записываться нужно сильно заранее, плотная запись.'},
+        {name:'Виктория Б.', stars:5, text:'Le Prestige — любовь с первой процедуры. Атмосфера полного люкса и релакса.'},
+        {name:'Мария П.', stars:5, text:'Анна создала идеальный свадебный образ. Макияж продержался весь день!'},
+        {name:'Елена Ж.', stars:5, text:'Уже 3 года доверяю свои брови только Лилии Маер. Ламинирование идеальное.'},
+        {name:'Ольга С.', stars:4, text:'Прекрасный салон на Арбате. Маникюр супер, но тяжело найти парковку.'},
+        {name:'Наталья В.', stars:5, text:'Smart-педикюр у Ольги — спасение. Очень профессиональный подход к эстетике.'},
+        {name:'Татьяна К.', stars:5, text:'Трендовое каре от Дениса изменило жизнь! Потрясающий мастер с видением.'},
+        {name:'Диана Д.', stars:5, text:'Прихожу сюда отдохнуть. Всегда люкс материалы и безупречная стерилизация.'}
     ];
 
-    // 2. ГЕНЕРАЦИЯ ПОРТФОЛИО
+    // ГЕНЕРАЦИЯ ЭЛЕМЕНТОВ
     const grid = document.getElementById('galleryGrid');
-    function renderGallery(filter = 'all') {
+    function renderGallery(f = 'all') {
         grid.innerHTML = '';
-        photos.forEach(p => {
-            if (filter === 'all' || p.cat === filter) {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.innerHTML = `<img src="img/${p.img}" alt="${p.t}"><div class="gallery-overlay"><h3>${p.t}</h3><p>Мастер: ${p.m}</p></div>`;
-                grid.appendChild(item);
-            }
-        });
+        photos.forEach(p => { if (f === 'all' || p.cat === f) {
+            const i = document.createElement('div'); i.className = 'gallery-item';
+            i.innerHTML = `<img src="img/${p.img}" alt="${p.t}"><div class="gallery-overlay"><h3>${p.t}</h3><p>Мастер: ${p.m}</p></div>`;
+            grid.appendChild(i);
+        }});
     }
     renderGallery();
 
-    // Экспортируем функцию фильтрации в глобальную видимость для кнопок HTML
-    window.filterGallery = function(category) {
-        renderGallery(category);
-        document.querySelectorAll('.btn-filter').forEach(btn => btn.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-    };
+    window.filterGallery = function(cat) { renderGallery(cat); };
 
-    // 3. ГЕНЕРАЦИЯ 10 ЖИВЫХ ОТЗЫВОВ
+    // Рендер команды мастеров
+    const teamGrid = document.getElementById('teamGrid');
+    team.forEach(m => {
+        const c = document.createElement('div'); c.className = 'team-card';
+        c.innerHTML = `<div class="team-img-wrap"><img src="img/${m.img}" alt="${m.name}"></div><h3>${m.name}</h3><div class="team-role">${m.role}</div><p class="team-desc">${m.desc}</p>`;
+        teamGrid.appendChild(c);
+    });
+
+    // Рендер 10 отзывов
     const revContainer = document.getElementById('reviewsContainer');
     reviews.forEach(r => {
-        const card = document.createElement('div');
-        card.className = 'review-card';
-        let starIcons = '';
-        for (let i = 0; i < r.stars; i++) starIcons += '<i class="fa-solid fa-star"></i>';
-        card.innerHTML = `<div class="stars">${starIcons}</div><p class="review-text">«${r.text}»</p><div class="review-author">${r.name}</div>`;
+        const card = document.createElement('div'); card.className = 'review-card'; let s = '';
+        for (let i=0; i<r.stars; i++) s += '<i class="fa-solid fa-star"></i>';
+        card.innerHTML = `<div class="stars">${s}</div><p class="review-text">«${r.text}»</p><div class="review-author">${r.name}</div>`;
         revContainer.appendChild(card);
     });
 
-    // 4. ПРЕМИАЛЬНЫЙ АВТОСЛАЙДЕР (ФОНЫ ГЛАВНОГО ЭКРАНА)
+    // ОТКРЫТИЕ ОТДЕЛЬНЫХ СТРАНИЦ
+    window.openCategoryPage = function(cat) {
+        const data = categoriesData[cat]; const modal = document.getElementById('categoryModal');
+        let pList = ''; data.prices.forEach(p => pList += `<div class="price-item"><span class="price-name">${p.name}</span><span class="price-val">${p.val}</span></div>`);
+        document.getElementById('modalInnerData').innerHTML = `<h2 class="modal-title">${data.title}</h2><p class="modal-desc">${data.desc}</p><div class="price-list">${pList}</div>`;
+        modal.classList.add('active');
+    };
+    window.closeCategoryPage = function() { document.getElementById('categoryModal').classList.remove('active'); };
+
+    // СЛАЙДЕР ГЛАВНОГО ЭКРАНА
     const slides = document.querySelectorAll('.slide');
-    if (slides.length > 0) {
-        let currentSlide = 0;
-        setInterval(() => {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
-        }, 4000);
-    }
-
-    // 5. ИНТЕРАКТИВНЫЙ ЛАЙТБОКС ДЛЯ ФОТОГРАФИЙ
-    const lightbox = document.createElement("div");
-    lightbox.style.cssText = "position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(13,9,11,0.96);z-index:2000;display:none;justify-content:center;align-items:center;cursor:zoom-out;";
-    const bigImg = document.createElement("img");
-    bigImg.style.cssText = "max-width:92%;max-height:85%;object-fit:contain;border:1px solid rgba(244,167,185,0.3);box-shadow:0 0 30px rgba(0,0,0,0.9);";
-    lightbox.appendChild(bigImg);
-    document.body.appendChild(lightbox);
-
-    grid.addEventListener("click", e => {
-        const clickedImg = e.target.closest(".gallery-item img");
-        if (clickedImg) {
-            bigImg.src = clickedImg.src;
-            lightbox.style.display = "flex";
-        }
-    });
-    lightbox.addEventListener("click", () => lightbox.style.display = "none");
+    if (slides.length > 0) { let cur = 0; setInterval(() => { slides[cur].classList.remove('active'); cur = (cur + 1) % slides.length; slides[cur].classList.add('active'); }, 4000); }
 });

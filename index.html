@@ -14,10 +14,11 @@
         <div class="logo">Le <span class="logo-accent">Prestige</span></div>
         <nav class="nav-menu">
             <a href="#portfolio" class="nav-link">Портфолио</a>
+            <a href="#team" class="nav-link">Мастера</a>
             <a href="#reviews" class="nav-link">Отзывы</a>
-            <a href="#contacts" class="nav-link">Контакты</a>
+            <a href="#booking-section" class="nav-link">Запись</a>
         </nav>
-        <button class="btn-book" onclick="openBooking()">Онлайн-Запись</button>
+        <button class="btn-book" onclick="scrollToBooking()">Онлайн-Запись</button>
     </header>
 
     <!-- Главный экран со слайдером -->
@@ -30,27 +31,56 @@
         <div class="hero-content">
             <h1 class="hero-title">Искусство вашей <span class="italic-title">совершенности</span></h1>
             <p class="hero-subtitle">Премиальный бьюти-сервис в центре столицы. Создаем роскошные образы и заботимся о вашей уникальности уже более 3 лет.</p>
-            <button class="btn-book btn-hero" onclick="openBooking()">Записаться к мастеру</button>
+            <button class="btn-book btn-hero" onclick="scrollToBooking()">Записаться к мастеру</button>
         </div>
     </section>
 
-    <!-- Структурированное портфолио по отделам -->
+    <!-- Портфолио по отделам -->
     <section id="portfolio" class="section">
         <h2 class="section-title">Наше Портфолио</h2>
-        <!-- Кнопки фильтрации по позициям -->
         <div class="filter-buttons">
             <button class="btn-filter active" onclick="filterGallery('all')">Все работы</button>
-            <button class="btn-filter" onclick="filterGallery('hair')">Стилисты</button>
-            <button class="btn-filter" onclick="filterGallery('nails')">Ногтевой сервис</button>
-            <button class="btn-filter" onclick="filterGallery('makeup')">Визаж и брови</button>
+            <button class="btn-filter" onclick="openCategoryPage('hair')">Отдел Стилистов <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+            <button class="btn-filter" onclick="openCategoryPage('nails')">Ногтевой сервис <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
+            <button class="btn-filter" onclick="openCategoryPage('makeup')">Визаж и брови <i class="fa-solid fa-arrow-up-right-from-square"></i></button>
         </div>
         <div class="gallery-grid" id="galleryGrid"></div>
     </section>
 
-    <!-- Живыеа отзывы гостей (10 штук рендерятся через JS) -->
-    <section id="reviews" class="section section-alt">
+    <!-- Команда мастеров (Место для фото и описания) -->
+    <section id="team" class="section section-alt">
+        <h2 class="section-title">Топ-Мастера Салона</h2>
+        <div class="team-grid" id="teamGrid"></div>
+    </section>
+
+    <!-- Отзывы гостей (10 штук рендерятся через JS) -->
+    <section id="reviews" class="section">
         <h2 class="section-title">Отзывы наших гостей</h2>
         <div class="reviews-container" id="reviewsContainer"></div>
+    </section>
+
+    <!-- Новая форма заявки -->
+    <section id="booking-section" class="section section-alt">
+        <h2 class="section-title">Премиальный сервис</h2>
+        <div class="booking-wrapper">
+            <div class="booking-card">
+                <h3>Оставить заявку на визит</h3>
+                <p>Заполните форму, и наш консьерж свяжется с вами в течение 5 минут для подтверждения времени.</p>
+                <form id="leadForm" onsubmit="handleFormSubmit(event)">
+                    <div class="form-group"><input type="text" required placeholder="Ваше имя"></div>
+                    <div class="form-group"><input type="tel" required placeholder="+7 (999) 000-00-00"></div>
+                    <div class="form-group">
+                        <select required>
+                            <option value="" disabled selected>Выберите интересующий отдел</option>
+                            <option value="hair">Стилисты (Волосы)</option>
+                            <option value="nails">Ногтевой сервис (Маникюр/Педикюр)</option>
+                            <option value="makeup">Визаж, архитектура бровей</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-book" style="width:100%; background:var(--rose-gold); color:var(--bg-dark);">Забронировать визит</button>
+                </form>
+            </div>
+        </div>
     </section>
 
     <!-- Контакты и Яндекс Карты -->
@@ -59,15 +89,24 @@
         <div class="contacts-wrapper">
             <div class="contact-info">
                 <h3 class="contact-info-title">Ждем вас</h3>
-                <div class="contact-item"><i class="fa-solid fa-location-dot"></i><div class="contact-text">г. Москва, ул. Новый Арбат, 21</div></div>
+                <div class="contact-item"><i class="fa-solid fa-location-dot"></i><div class="contact-text">г. Москва, ул. Новыйmathbf Арбат, 21</div></div>
                 <div class="contact-item"><i class="fa-solid fa-phone"></i><div class="contact-text">+7 (495) 000-00-00</div></div>
                 <div class="contact-item"><i class="fa-solid fa-clock"></i><div class="contact-text">Ежедневно: 10:00 — 22:00</div></div>
             </div>
+            <!-- Интеграция Яндекс Карт -->
             <div class="map-container">
                 <iframe src="https://yandex.ru" width="100%" height="100%" frameborder="0"></iframe>
             </div>
         </div>
     </section>
+
+    <!-- Интерактивная "Отдельная страница" для каждого бьюти-раздела -->
+    <div class="category-modal" id="categoryModal">
+        <div class="modal-content">
+            <button class="btn-close-modal" onclick="closeCategoryPage()"><i class="fa-solid fa-xmark"></i></button>
+            <div id="modalInnerData"></div>
+        </div>
+    </div>
 
     <!-- Виджет ИИ-Ассистента -->
     <div class="ai-assistant-widget">
@@ -91,24 +130,22 @@
         <p class="footer-copy">&copy; 2026 LE PRESTIGE. Премиальный сервис с 2023 года. Все права защищены.</p>
     </footer>
 
-    <!-- Логика ИИ-чата -->
+    <!-- Скрипты управления логикой -->
     <script>
-        function openBooking(){alert('Открытие премиум-формы онлайн-записи...');}
+        function scrollToBooking(){document.getElementById('booking-section').scrollIntoView({behavior:'smooth'});}
         function toggleAiChat(){document.getElementById('aiChatWindow').classList.toggle('active');}
+        function handleFormSubmit(e){e.preventDefault();alert('Заявка успешно создана! Наш консьерж уже связывается с вами.');e.target.reset();}
         document.querySelector('.ai-input').addEventListener('keypress',e=>{if(e.key==='Enter')sendAiMsg();});
         function sendAiMsg(){
             const inp=document.querySelector('.ai-input');const text=inp.value.trim();if(!text)return;
             const bdy=document.querySelector('.ai-chat-body');
-            const uM=document.createElement('div');uM.className='ai-msg user';uM.style.cssText='background:rgba(212,175,55,0.1);align-self:flex-end;border-right:2px solid var(--accent-gold);padding:10px 15px;border-radius:8px;max-width:80%;color:#fff;';uM.textContent=text;
+            const uM=document.createElement('div');uM.className='ai-msg user';uM.style.cssText='background:rgba(244,167,185,0.15);align-self:flex-end;border-right:2px solid var(--accent-pink);padding:10px 15px;border-radius:8px;max-width:80%;color:#fff;';uM.textContent=text;
             bdy.appendChild(uM);inp.value='';bdy.scrollTop=bdy.scrollHeight;
             setTimeout(()=>{
-                const bM=document.createElement('div');bM.className='ai-msg bot';
-                const s=text.toLowerCase();
-                let ans='Спасибо за обращение! Наш администратор свяжется с вами для подтверждения деталей.';
+                const bM=document.createElement('div');bM.className='ai-msg bot';const s=text.toLowerCase();let ans='Спасибо за обращение! Данные переданы менеджеру.';
                 if(s.includes('привет')||s.includes('здрав'))ans='Приветствуем вас в Le Prestige! Чем могу помочь сегодня?';
-                if(s.includes('запис')||s.includes('окошк')||s.includes('свобод'))ans='Вы можете выбрать удобное время и топ-мастера самостоятельно, нажав кнопку «Онлайн-Запись» вверху страницы.';
-                if(s.includes('цен')||s.includes('прайс')||s.includes('скольк'))ans='Наш прайс: Сложное окрашивание от 8.500₽, Стрижки от 3.500₽, Японский маникюр от 3.000₽, Свадебный визаж от 6.000₽.';
-                if(s.includes('отзыв'))ans='За 3 года работы мы получили сотни теплых слов! Вы можете прочитать их чуть ниже в блоке отзывов.';
+                if(s.includes('запис')||s.includes('форму')||s.includes('окошк'))ans='Вы можете заполнить форму заявки прямо на сайте, выбрав нужный отдел!';
+                if(s.includes('цен')||s.includes('прайс'))ans='Сложное окрашивание от 8.500₽, Японский маникюр от 3.000₽, Свадебный визаж от 6.000₽.';
                 bM.textContent=ans;bdy.appendChild(bM);bdy.scrollTop=bdy.scrollHeight;
             },700);
         }
